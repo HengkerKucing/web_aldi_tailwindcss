@@ -6,6 +6,7 @@
     <title>Luqman Aldi Prawiratama</title>
     <link href="src/output.css" rel="stylesheet">
     <link rel="shortcut icon" type="x-icon" href="src/logo.png"/>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
 </head>
 <body>
 
@@ -165,7 +166,7 @@
                 </div>
             </div>
 
-            <div class="w-full px-4">
+            <!-- <div class="w-full px-4">
                 <div class="flex flex-wrap items-center justify-center">
                     <a href="#" class="max-w-[100px] mx-4 py-4 grayscale opacity-60 transition duration-500 hover:grayscale-0 hover:opacity-100 lg:mx-6 xl:mx-8" >
                         <img src="src/clients/google.png" alt="Google">
@@ -179,7 +180,7 @@
                     <a href="#" class="max-w-[90px] mx-4 py-4 grayscale opacity-60 transition duration-500 hover:grayscale-0 hover:opacity-100 lg:mx-6 xl:mx-8" >
                         <img src="src/clients/GoTo.png" alt="GoTo">
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -224,38 +225,40 @@
     </section>
     <!-- Blog End -->
 
-    <!-- Contact Start -->
-    <section id="contact" class="pt-36 pb-32 ">
-        <div class="container">
-            <div class="w-full px-4 flex flex-wrap justify-center">
-                <div class="max-w-xl max-auto mb-16 text-center">
-                    <h4 class="font-semibold text-lg text-primary mb-2 lg:text-2xl">Contact</h4>
-                    <h2 class="font-bold text-dark text-3xl mb-4 sm:text-3xl lg:text-4xl">Hubungi Saya</h2>
-                    <p class="font-medium text-md text-secondary md:text-lg">⛔fitur ini masih dalam pengembangan⛔</p>
-                </div>
+<!-- Contact Section Start -->
+<section id="contact" class="pt-36 pb-32 bg-slate-100">
+    <div class="container">
+        <div class="w-full px-4">
+            <div class="max-w-xl mx-auto text-center mb-16">
+                <h4 class="font-semibold text-lg text-primary mb-2 lg:text-2xl">Contact</h4>
+                <h2 class="font-bold text-dark text-3xl mb-4 lg:text-4xl">Hubungi Saya</h2>
+                <p class="font-medium text-md text-secondary md:text-lg">Jika Anda tertarik untuk bekerja sama atau memiliki pertanyaan, jangan ragu untuk menghubungi saya melalui form di bawah ini.</p>
             </div>
-            <form class="flex flex-wrap justify-center">
-                <div class="w-full lg:w-2/3 mx-auto ">
-                    <div class="w-full px-4 mb-8 ">
-                        <label for="name" class="text-base font-hold text-primary">Nama</label>
-                        <input type="text" id="name" class="w-full bg-slate-200 text-dark p-3 rounded-md focus:outline-none focus:ring-primary focus:ring-1 focus:border-primary"/>
-                    </div>
-                    <div class="w-full px-4 mb-8">
-                        <label for="email" class="text-base font-hold text-primary">Email</label>
-                        <input type="email" id="email" class="w-full bg-slate-200 text-dark p-3 rounded-md focus:outline-none focus:ring-primary focus:ring-1 focus:border-primary"/>
-                    </div>
-                    <div class="w-full px-4 mb-8">
-                        <label for="message" class="text-base font-hold text-primary">Nama</label>
-                        <textarea type="text" id="name" class="w-full bg-slate-200 text-dark p-3 rounded-md focus:outline-none focus:ring-primary focus:ring-1 focus:border-primary h-32"></textarea>
-                    </div>
-                    <div class="w-full px-4">
-                        <button class="text-base font-semibold text-white bg-primary py-3 px-8 rounded-full w-full hover:shadow-lg transition duration-500 ">Kirim</button>
-                    </div>
+        </div>
+
+        <div class="w-full px-4">
+            <form id="contact-form">
+                <div class="mb-5">
+                    <label for="name" class="text-base text-primary font-bold">Nama</label>
+                    <input type="text" id="name" class="w-full p-3 rounded-md border border-slate-300" placeholder="Nama Anda" required>
+                </div>
+                <div class="mb-5">
+                    <label for="email" class="text-base text-primary font-bold">Email</label>
+                    <input type="email" id="email" class="w-full p-3 rounded-md border border-slate-300" placeholder="Email Anda" required>
+                </div>
+                <div class="mb-5">
+                    <label for="message" class="text-base text-primary font-bold">Pesan</label>
+                    <textarea id="message" class="w-full p-3 rounded-md border border-slate-300" rows="5" placeholder="Pesan Anda" required></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="w-full p-3 bg-primary text-white rounded-md hover:opacity-80 transition duration-300">Kirim</button>
                 </div>
             </form>
         </div>
-    </section>
-    <!-- Contact End -->
+    </div>
+</section>
+<!-- Contact Section End -->
+
 
     <!-- Footer Start -->
     <footer class="bg-dark pt-24 pb-12 ">
@@ -322,6 +325,42 @@
             </div>
         </div>
     </footer>
+
+  <!-- Email Sending Script -->
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var message = document.getElementById('message').value;
+      
+      Email.send({
+        SecureToken: "1C27D09D8220A292F2579C749D42767AA462", // Replace with your actual Secure Token
+        To: 'aldi@luqman.cloud',
+        From: email,
+        Subject: "Pesan dari " + name + " melalui luqman.cloud",
+        Body: "Nama: " + name + "<br>Email: " + email + "<br>Pesan: " + message
+      }).then(
+        function(response) {
+          if (response === 'OK') {
+            alert("Pesan berhasil dikirim!");
+            document.getElementById('contact-form').reset();
+          } else {
+            console.error("Response:", response);
+            alert("Terjadi kesalahan. Silakan coba lagi nanti. Detail: " + response);
+          }
+        }
+      ).catch(
+        function(error) {
+          console.error("Error:", error);
+          alert("Terjadi kesalahan saat mengirim pesan. Detail: " + error.message);
+        }
+      );
+    });
+    </script>
+<!-- Send Email End -->
+
+
     <!-- Footer End -->
     <script src="js/script.js"></script>
 </body>
